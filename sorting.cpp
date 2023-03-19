@@ -69,6 +69,18 @@ public:
         cout << endl;
         cout << "this is EOF" << endl;
     };
+
+    void selectionSort(){
+
+    };
+
+    void bubbleSort(){
+
+    };
+
+    void InsertionSort() {
+
+    };
 };
 
 int main()
