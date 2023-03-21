@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <ctime>
 
 using namespace std;
 
@@ -111,7 +112,7 @@ public:
         }
     }
 
-    void InsertionSort() {
+    void insertionSort() {
 
     };
 };
@@ -121,9 +122,13 @@ int main()
     IntArray arr;
 
     arr.readFile("beforeSort100k.csv");
+    clock_t start = clock();
     arr.advancedBubbleSort();
+    clock_t finish = clock();
     arr.showArr();
     arr.writeFile("afterSort.csv");
+    cout<< endl;
+    cout<< (finish - start)/CLOCKS_PER_SEC << "sec" << endl;
 
     return 0;
 }
