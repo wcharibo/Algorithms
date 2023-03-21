@@ -97,6 +97,20 @@ public:
         }
     };
 
+    void advancedBubbleSort(){
+        int flag = 1;
+        for(int i = n; i>1; i--){
+            flag = 0;
+            for(int j = 0; j< i-1; j++){
+                if(arr[j]>arr[j+1]){
+                    swap(arr[j], arr[j+1]);
+                    flag=1;
+                }
+            }
+        if (flag == 0) break;
+        }
+    }
+
     void InsertionSort() {
 
     };
@@ -107,7 +121,7 @@ int main()
     IntArray arr;
 
     arr.readFile("beforeSort100k.csv");
-    arr.bubbleSort();
+    arr.advancedBubbleSort();
     arr.showArr();
     arr.writeFile("afterSort.csv");
 
