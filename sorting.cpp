@@ -11,6 +11,7 @@ class IntArray
 private:
     vector<int> arr;
     string line;
+    int n = 100000;
 
 public:
     IntArray() {}
@@ -69,6 +70,16 @@ public:
         cout << endl;
         cout << "this is EOF" << endl;
     };
+
+    int getMaxIndex(){
+        int maxIndex = 0;
+        for(int i =1; i<n; i++){
+            if(arr[i]>arr[maxIndex]){
+                maxIndex = i;
+            }
+        }
+        return maxIndex;
+    }
 
     void selectionSort(){
 
