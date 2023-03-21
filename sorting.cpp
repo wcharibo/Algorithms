@@ -88,7 +88,13 @@ public:
     };
 
     void bubbleSort(){
-
+        for(int i = n; i>1; i--){
+            for(int j = 0; j< i-1; j++){
+                if(arr[j]>arr[j+1]){
+                    swap(arr[j], arr[j+1]);
+                }
+            }
+        }
     };
 
     void InsertionSort() {
@@ -101,7 +107,7 @@ int main()
     IntArray arr;
 
     arr.readFile("beforeSort100k.csv");
-    arr.selectionSort();
+    arr.bubbleSort();
     arr.showArr();
     arr.writeFile("afterSort.csv");
 
