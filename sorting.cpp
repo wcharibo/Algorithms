@@ -71,9 +71,9 @@ public:
         cout << "this is EOF" << endl;
     };
 
-    int getMaxIndex(){
+    int getMaxIndex(int j){
         int maxIndex = 0;
-        for(int i =1; i<n; i++){
+        for(int i =1; i<j+1; i++){
             if(arr[i]>arr[maxIndex]){
                 maxIndex = i;
             }
@@ -82,7 +82,9 @@ public:
     }
 
     void selectionSort(){
-
+        for(int i = n-1; i>0; i--){
+            swap(arr[i],arr[getMaxIndex(i)]);
+        }
     };
 
     void bubbleSort(){
@@ -99,6 +101,7 @@ int main()
     IntArray arr;
 
     arr.readFile("beforeSort100k.csv");
+    arr.selectionSort();
     arr.showArr();
     arr.writeFile("afterSort.csv");
 
