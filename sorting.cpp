@@ -4,18 +4,23 @@
 #include <string>
 #include <vector>
 #include <ctime>
+#include <mutex>
 
 using namespace std;
+#define MAX_NUM 100000;
 
 class IntArray
 {
 private:
     vector<int> arr;
     string line;
-    int n = 100000;
+    int n = MAX_NUM;
+    int g_num = 0;
+    mutex g_mutex;
+    int cnt;
 
 public:
-    IntArray() {}
+    pthread_mutex_t lock;
 
     void readFile(string fileName)
     {
@@ -51,9 +56,15 @@ public:
             exit(1);
         }
         int i = 0;
-        while (i != arr.back())
-        {
-            outputFile << arr[i] << ',';
+        while (i != arr.size())
+        {   
+            if (i==arr.size()-1)
+            {
+                outputFile << arr[i];
+                return;
+            }
+            
+            outputFile << arr[i] << ','<<endl;
             i++;
         }
         outputFile.close();
@@ -63,13 +74,17 @@ public:
     void showArr()
     {
         int i = 0;
-        while (i != arr.back())
+        cnt = 0;
+        while (i != arr.size()-1)
         {
             cout << arr[i] << ' ';
             i++;
+            cnt++;
         }
         cout << endl;
-        cout << "this is EOF" << endl;
+        if(i==arr.size()-1){cout<< "this is EOF" << endl;} 
+        cout<<"cnt = "<<cnt<<endl;
+        cout<<"size = "<< arr.size();
     };
 
     int getMaxIndex(int j){
@@ -113,22 +128,60 @@ public:
     }
 
     void insertionSort() {
-
+        for(int i = 1; i<n; i++){
+            int key = arr[i];
+            int j = i-1;
+            while(j>=0&&arr[j]>key){
+                arr[i] = arr[j];
+                j--;
+            }
+        }
     };
+
+    void createArr(){
+
+        for(int i = 0; i<100000;i++)
+        {   
+            arr.push_back(i+1);
+        }
+
+        cout << "1 to 100k arr made"<< endl;
+    }
+
+    void fisherYatesShuffle() {
+        int n = arr.size();
+
+        for (int i = n -1 ; i >= 1; i--)
+        {
+            int j = rand()%(i+1);
+            swap(arr[i], arr[j]);
+        }
+
+        cout<< "shuffled"<<endl;
+    }
 };
 
 int main()
 {
     IntArray arr;
 
-    arr.readFile("beforeSort100k.csv");
-    clock_t start = clock();
-    arr.advancedBubbleSort();
-    clock_t finish = clock();
+    // arr.readFile("beforeSort100k.csv");
+    // clock_t start = clock();
+    // arr.selectionSort();                    //Insert arr.________sort();
+    // clock_t finish = clock();
+    // arr.showArr();
+    // arr.writeFile("afterSort.csv");
+    // cout<< endl;
+    // cout<< "The execution time is about "<<(finish - start)/CLOCKS_PER_SEC << "sec" << endl;
+    arr.createArr();
+    
+    arr.fisherYatesShuffle();
+
     arr.showArr();
-    arr.writeFile("afterSort.csv");
-    cout<< endl;
-    cout<< (finish - start)/CLOCKS_PER_SEC << "sec" << endl;
+
+    arr.writeFile("beforeSort100k.csv");    
+    
+
 
     return 0;
 }
