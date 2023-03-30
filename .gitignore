@@ -1,6 +1,5 @@
-afterSort.csv
-agterSort.csv
-output.csv
 sorting
 sorting.dSYM
 .vscode
+*.exe
+*.csv
