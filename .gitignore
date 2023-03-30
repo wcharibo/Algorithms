@@ -3,3 +3,4 @@ sorting.dSYM
 .vscode
 *.exe
 *.csv
+!beforeSort100k.csv
