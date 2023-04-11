@@ -212,6 +212,27 @@ public:
             j++;
         }
     }
+    /**퀵 정렬*/
+    void quickSort(int b, int t){
+        if(b<t){
+            int a = partition(b,t);
+            quickSort(b, a-1);
+            quickSort(a+1,t);
+        }
+    }
+    /**앵커를 정하는 함수*/
+    int partition(int b , int t){
+        int x = arr[t];
+        int i = b-1;
+        for(int j = b; j<t; j++){
+            if(arr[j]<=x){
+                swap(arr[++i], arr[j]);
+            }
+        }
+        swap(arr[i+1], arr[t]);
+
+        return i+1;
+    }
 };
 
 int main()
@@ -223,7 +244,8 @@ int main()
     arr.readFile("beforeSort100k.csv");
     clock_t start = clock();
     /** Insert arr.________sort(); */ 
-    arr.mergeSort(0,99999);
+    arr.quickSort(0,99999);
+    // arr.mergeSort(0,99999);
     // arr.insertionSort();
     // arr.bubbleSort();
     // arr.advancedBubbleSort();
