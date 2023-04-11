@@ -70,8 +70,7 @@ public:
     /**배열 생성*/
     void createArr()
     {
-
-        for (int i = 0; i < 100000; i++)
+        for (int i = 0; i < 10; i++)
         {
             arr.push_back(i + 1);
         }
@@ -171,8 +170,47 @@ public:
         }
     };
     /**병합 정렬*/
-    void mergeSort()
+    void mergeSort(int a, int b)
     {
+        if(a<b){    //이렇게 해야 recursion이 끝남
+        int m = (a+b)/2;
+
+        mergeSort(a,m);
+        mergeSort(m+1, b);
+
+        arrMerge(a,m,b);
+        }
+    }
+    /**정렬된 배열 병합*/
+    void arrMerge(int a, int m, int b){
+        vector <int> arrL, arrR;
+        for(int i=a; i<=m;i++){
+            arrL.push_back(arr[i]);
+        }
+        for(int i =m+1;i<=b;i++){
+            arrR.push_back(arr[i]);
+        }
+        int i = 0, j =0, k = a;
+        while(i<arrL.size() && j<arrR.size()){
+            if(arrL[i]<arrR[j]){
+                arr[k] = arrL[i];
+                i++;
+            } else{
+                arr[k] = arrR[j];
+                j++;
+            }
+            k++;
+        }
+        while(i<arrL.size()){
+            arr[k] = arrL[i];
+            k++;
+            i++;
+        }
+        while(j<arrR.size()){
+            arr[k] = arrR[j];
+            k++;
+            j++;
+        }
     }
 };
 
@@ -180,18 +218,23 @@ int main()
 {
     IntArray arr;
 
-    arr.readFile("beforeSort100k.csv");
-    clock_t start = clock();
-    // Insert arr.________sort();
-    clock_t finish = clock();
-    arr.showArr();
-    arr.writeFile("afterSort.csv");
-    cout << endl;
-    cout << "The execution time is about " << (finish - start) / CLOCKS_PER_SEC << "sec" << endl;
     // arr.createArr();
     // arr.fisherYatesShuffle();
     // arr.showArr();
-    // arr.writeFile("beforeSort100k.csv");
 
+    arr.readFile("beforeSort100k.csv");
+    clock_t start = clock();
+    // Insert arr.________sort();
+    arr.mergeSort(0,99999);
+    // arr.insertionSort();
+    // arr.bubbleSort();
+    // arr.advancedBubbleSort();
+    // arr.selectionSort();
+    clock_t finish = clock();
+    arr.showArr();
+    // arr.writeFile("afterSort.csv");
+    cout << endl;
+    cout << "The execution time is about " << (finish - start) / CLOCKS_PER_SEC << "sec" << endl;
+    // arr.writeFile("beforeSort100k.csv");
     return 0;
 }
