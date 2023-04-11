@@ -218,13 +218,11 @@ int main()
 {
     IntArray arr;
 
-    // arr.createArr();
+    // arr.createArr(); //make 1 to 10 array
     // arr.fisherYatesShuffle();
-    // arr.showArr();
-
     arr.readFile("beforeSort100k.csv");
     clock_t start = clock();
-    // Insert arr.________sort();
+    /** Insert arr.________sort(); */ 
     arr.mergeSort(0,99999);
     // arr.insertionSort();
     // arr.bubbleSort();
