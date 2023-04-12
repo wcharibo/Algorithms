@@ -181,7 +181,7 @@ public:
         arrMerge(a,m,b);
         }
     }
-    /**정렬된 배열 병합*/
+    /**병합 정렬을 호출하려면 mergeSort(int, int)를 사용하세요*/
     void arrMerge(int a, int m, int b){
         vector <int> arrL, arrR;
         for(int i=a; i<=m;i++){
@@ -220,7 +220,7 @@ public:
             quickSort(a+1,t);
         }
     }
-    /**앵커를 정하는 함수*/
+    /**퀵 정렬을 호출하려면 quickSort(int, int)를 사용하세요*/
     int partition(int b , int t){
         int x = arr[t];
         int i = b-1;
@@ -233,18 +233,49 @@ public:
 
         return i+1;
     }
+
+    void buildMinHeap(){
+        for(int i = (arr.size()-1)/2; i>=0; i--){
+            minHeapify(i, arr.size()-1);
+        }
+    };
+    void minHeapify(int i, int n) {
+        int left = 2*i+1, right = 2*i+2, smallest=i;
+        if(right <= n){
+            if(arr[left]<arr[right]) smallest = left;
+            else smallest = right;
+        }
+        else if(left <= n){
+            smallest = left;
+        }
+        else return;
+
+        if(arr[smallest]<arr[i]){
+            swap(arr[smallest], arr[i]);
+            minHeapify(smallest, n);
+        }
+    };
+    void heapSort() {
+        buildMinHeap();
+        for(int i = arr.size()-1; i>=1;i--){
+            swap(arr[0],arr[i]);
+            minHeapify(0, i-1);
+        }
+    };
 };
 
 int main()
 {
     IntArray arr;
 
-    // arr.createArr(); //make 1 to 10 array
-    // arr.fisherYatesShuffle();
-    arr.readFile("beforeSort100k.csv");
+    arr.createArr(); //make 1 to 10 array
+    arr.fisherYatesShuffle();
+    arr.showArr();
+    // arr.readFile("beforeSort100k.csv");
     clock_t start = clock();
     /** Insert arr.________sort(); */ 
-    arr.quickSort(0,99999);
+    arr.heapSort();
+    // arr.quickSort(0,99999);
     // arr.mergeSort(0,99999);
     // arr.insertionSort();
     // arr.bubbleSort();
