@@ -158,15 +158,16 @@ public:
     /**삽입 정렬*/
     void insertionSort()
     {
-        for (int i = 1; i < n; i++)
+        for (int i = 1; i < arr.size(); i++)
         {
             int key = arr[i];
             int j = i - 1;
             while (j >= 0 && arr[j] > key)
             {
-                arr[i] = arr[j];
+                arr[j+1] = arr[j];
                 j--;
             }
+            arr[j+1]=key;
         }
     };
     /**병합 정렬*/
@@ -274,10 +275,10 @@ int main()
     // arr.readFile("beforeSort100k.csv");
     clock_t start = clock();
     /** Insert arr.________sort(); */ 
-    arr.heapSort();
+    // arr.heapSort();
     // arr.quickSort(0,99999);
     // arr.mergeSort(0,99999);
-    // arr.insertionSort();
+    arr.insertionSort();
     // arr.bubbleSort();
     // arr.advancedBubbleSort();
     // arr.selectionSort();
