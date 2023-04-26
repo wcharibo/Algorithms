@@ -1,6 +1,7 @@
-sorting
-sorting.dSYM
-.vscode
-*.exe
 *.csv
+.vscode
+*.dSYM
+algorithms
 !beforeSort100k.csv
+!*.cpp
+!*.md
