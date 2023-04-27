@@ -1,7 +1,7 @@
 *.csv
 .vscode
 *.dSYM
-algorithms
+*.exe
 !beforeSort100k.csv
 !*.cpp
 !*.md
