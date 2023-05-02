@@ -3,6 +3,5 @@
 *.dSYM
 *.exe
 !beforeSort100k.csv
-*.cpp
+!*.cpp
 !*.md
-!sorting.cpp
