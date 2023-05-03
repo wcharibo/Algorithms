@@ -21,8 +21,8 @@ int main(){
         cityCost.push_back(a);
     }
     
-    
-    for (int j = 0; j < cityNum-1; j++)
+    if(cityNum>1){
+        for (int j = 0; j < cityNum-1; j++)
     {
         min=1;
         oil=cityLength[j];
@@ -41,6 +41,9 @@ int main(){
         oilCost+=(oil*cityCost[j]);
         j=end;
     }
+    }
+    else oilCost=0;
+    
     
     cout<<oilCost;
 }
