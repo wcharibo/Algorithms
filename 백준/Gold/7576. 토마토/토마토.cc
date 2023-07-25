@@ -6,7 +6,8 @@ using namespace std;
 
 vector <vector<int> > tmtMat;
 int tmtArr, tmtCol, result;
-void ripe(queue <pair <int, pair <int, int> > > &q);
+void ripe();
+queue <pair <int, pair <int, int> > > q;
 pair <int, pair <int, int> > temp;
 
 int main() {
@@ -14,13 +15,12 @@ int main() {
     ios_base::sync_with_stdio(false);
     
     vector <pair <int,int> > ripeTmt;
-    queue <pair <int, pair <int, int> > > ripeOrder;
     cin>>tmtCol>>tmtArr;
     tmtMat.resize(tmtArr, vector <int>(tmtCol, 0));
     for(int i = 0; i< tmtArr;i++){
         for(int j = 0; j<tmtCol;j++){
             cin>>tmtMat[i][j];
-            if(tmtMat[i][j]==1) ripeOrder.emplace(make_pair(0, make_pair(i,j)));
+            if(tmtMat[i][j]==1) q.emplace(make_pair(0, make_pair(i,j)));
         }
     }
     int flag=1;
@@ -37,18 +37,18 @@ int main() {
         cout<<0;
         return 0;
     }
-    if(ripeOrder.empty()){
+    if(q.empty()){
         result = -1;
         cout<<result;
         return 0 ;
     }
     
-    ripe(ripeOrder);
+    ripe();
     
     cout<<result;
 }
 
-void ripe(queue <pair <int, pair <int, int> > > &q){
+void ripe(){
     temp = q.front();
     q.pop();
     
@@ -93,5 +93,5 @@ void ripe(queue <pair <int, pair <int, int> > > &q){
         }
     }
     
-    ripe(q);
+    ripe();
 }
