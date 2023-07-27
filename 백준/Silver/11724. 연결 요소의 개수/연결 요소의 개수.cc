@@ -7,6 +7,10 @@ using namespace std;
 void dfs(int x, vector <vector< int> > &g, vector <int> &v);
 
 int main() {
+    ios_base::sync_with_stdio(0);
+    cout.tie(0);
+    cin.tie(0);
+    
     int edgeNum, vertexNum;
     cin>>edgeNum>>vertexNum;
     vector <vector <int> > graph(edgeNum);
@@ -20,12 +24,9 @@ int main() {
     
     int cnt=0;
     
-    auto it = find(visited.begin(), visited.end(), 0);
-    
-    while(it!=visited.end()){
-        it = find(visited.begin(), visited.end(), 0);
-        if(it!=visited.end()){
-            dfs(it-visited.begin(), graph, visited);
+    for(int i=0; i<edgeNum; i++){
+        if(visited[i]==0){
+            dfs(i, graph, visited);
             cnt++;
         }
     }
