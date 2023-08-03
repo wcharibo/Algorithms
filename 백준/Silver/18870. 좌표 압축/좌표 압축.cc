@@ -1,14 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <unordered_map>
-#include <set>
 
 using namespace std;
-
-vector <int> arr(11,0);
-
-int cal(int a);
 
 int main() {
     ios_base::sync_with_stdio(0);
@@ -18,23 +12,25 @@ int main() {
     int num;
     
     cin>>num;
-    
-    set <int> arr;
-    vector<int> arrOr;
-    unordered_map <int, int> m;
+
+    vector<pair<int, int> > arr;
+    vector<int> arr_1(num);
     
     for(int i=0; i<num; i++){
         int temp;
         cin>>temp;
-        arrOr.push_back(temp);
-        arr.insert(temp);
+        arr.push_back(make_pair(temp, i));
     }
+    
+    sort(arr.begin(), arr.end());
+    
     int cnt=0;
-    for(set<int>::iterator i=arr.begin(); i!=arr.end(); i++){
-        m.insert({*i,cnt++});
+    for(int i=0; i<num; i++){
+        arr_1[arr[i].second]=cnt;
+        if(i!=num-1 && arr[i].first != arr[i+1].first) cnt++;
     }
     
     for(int i=0; i<num; i++){
-        cout<<m[arrOr[i]]<<' ';
+        cout<<arr_1[i]<<' ';
     }
 }
