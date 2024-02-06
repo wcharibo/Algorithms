@@ -1,33 +1,13 @@
 import sys
 
-sys.setrecursionlimit(10**6)
-
-house_num = int(sys.stdin.readline());
-price_list = []
-min_price_list = []
+house_num = int(sys.stdin.readline())
+cost_list=[]
 for i in range(house_num):
-    price_list.append(list(map(int, sys.stdin.readline().split())))
-    min_price_list.append([0,0,0])
+    cost_list.append(list(map(int, sys.stdin.readline().split())))
 
-min_price_list[0] = price_list[0];
-
-def paint_cost(line, color):
-    if line==0:
-        return min_price_list[line][color];
-    elif min_price_list[line][color] !=0:
-        return min_price_list[line][color];
-    else:
-        formal_price = []
-        for i in range(3):
-            if i==color:
-                continue;
-            else:
-                formal_price.append(paint_cost(line-1, i));
-        minimum = min(formal_price)
-        min_price_list[line][color] = minimum + price_list[line][color]
-        return min_price_list[line][color];
-        
-cal_list=[]
-for i in range(3):
-    cal_list.append(paint_cost(house_num-1, i));
-print(min(cal_list))
+for i in range(1, len(cost_list)):
+    cost_list[i][0]=min(cost_list[i-1][1], cost_list[i-1][2]) + cost_list[i][0]
+    cost_list[i][1]=min(cost_list[i-1][0], cost_list[i-1][2]) + cost_list[i][1]
+    cost_list[i][2]=min(cost_list[i-1][0], cost_list[i-1][1]) + cost_list[i][2]
+    
+print(min(cost_list[house_num-1]))
