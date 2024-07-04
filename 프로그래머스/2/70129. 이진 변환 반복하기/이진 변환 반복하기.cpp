@@ -9,7 +9,7 @@ pair <int, int> re_convert(pair<int, int> cnt_pair, string str){
     
     for(char i : str) i == '1' ? temp_size++ : cnt_pair.second++;
     
-    for(int i = 18 ; i>=0; i--){ //2^18==262,144
+    for(int i = 17 ; i>=0; i--){ //2^18==262,144
         int digit = (temp_size>>i)&1;
         if(digit !=0 || temp.size()!=0) temp+=to_string(digit);
     }
