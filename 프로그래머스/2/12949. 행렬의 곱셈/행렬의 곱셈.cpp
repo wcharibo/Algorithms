@@ -1,14 +1,11 @@
 #include <string>
 #include <vector>
-#include <iostream>
 
 using namespace std;
 
 vector<vector<int>> solution(vector<vector<int>> arr1, vector<vector<int>> arr2) {
     vector<vector<int>> answer(arr1.size());
-    vector<vector<int>> arr_sum;
-    
-    arr_sum.resize(arr1.size()*arr1[0].size());
+    vector<vector<int>> arr_sum(arr1.size()*arr1[0].size());
     
     for(int i = 0; i < arr_sum.size(); i++) arr_sum[i].resize(arr2.size()*arr2[0].size());
     
