@@ -9,9 +9,7 @@ int solution(vector<int> citations) {
     
     sort(citations.begin(), citations.end());
     
-    int cit_size = citations.size();
-    
-    int h = min(citations[0], cit_size);
+    int h = min(citations[0], int(citations.size()));
     
     while(flag==0){
         int temp = 0;
