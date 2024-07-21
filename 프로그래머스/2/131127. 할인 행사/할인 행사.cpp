@@ -12,11 +12,15 @@ int solution(vector<string> want, vector<int> number, vector<string> discount) {
     
     for(int i = 0; i <= (discount.size()-10); i++){
         vector<int> possible(want.size(), 0);
+        int flag = 1;
         for(int j = i; j < i+10; j++){
             auto temp = search_map.find(discount[j]);
             if(temp!=search_map.end()) possible[temp->second]++;
         }
-        if(possible==number) answer++;
+        for(int k = 0; k< want.size(); k++){
+            if(number[k]>possible[k]) flag = 0;
+        }
+        if(flag==1) answer++;
     }
     
     return answer;
