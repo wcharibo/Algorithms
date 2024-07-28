@@ -6,16 +6,12 @@ using namespace std;
 int dfs(vector<int> nums, int tar, int cnt, int sum){
     int target_reached = 0;
     if(cnt != nums.size()-1){
-        int temp1 = sum+nums[cnt];
-        int temp2 = sum-nums[cnt];
-        cnt++;
-        target_reached+=dfs(nums, tar, cnt, temp1);
-        target_reached+=dfs(nums, tar, cnt, temp2);
+        target_reached+=dfs(nums, tar, cnt+1, sum+nums[cnt]);
+        target_reached+=dfs(nums, tar, cnt+1, sum-nums[cnt]);
     }
     else{
-        int temp = sum;
-        if(tar==temp+nums[cnt]) target_reached++;
-        else if(tar==temp-nums[cnt]) target_reached++;
+        if(tar==sum+nums[cnt]) target_reached++;
+        else if(tar==sum-nums[cnt]) target_reached++;
     }
     
     return target_reached;
