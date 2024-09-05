@@ -4,7 +4,7 @@
 
 using namespace std;
 
-bool cal(string a, string b){
+bool cal(string &a, string &b){
     string temp1 = a+b;
     string temp2 = b+a;
     
