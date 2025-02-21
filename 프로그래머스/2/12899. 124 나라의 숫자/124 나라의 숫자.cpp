@@ -6,15 +6,12 @@ string solution(int n) {
     string answer = "";
     
     while(n!=0){
-        char num = n%3 + '0';
+        int rsd = n%3;
         n/=3;
         
-        if(num == '0'){
-            num+=4;
-            n--;
-        }
+        if(rsd == 0) n--;
         
-        answer = num + answer;
+        answer = "412"[rsd] + answer;
     }
     
     return answer;
