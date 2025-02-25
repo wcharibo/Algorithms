@@ -16,18 +16,14 @@ int cal(vector<int> result, int c){
 int locate(vector<int> a, int c, vector<int> v){
     int temp = 0, n = a.size();
     
-    if(c+1 == n){
-        for(int i = 0; i < n; i++) if(v[i] == 0 && abs(i - a[c-1]) >1) {a[c] = i; return cal(a, c);}
-    }
-    else{
-        for(int i = 0; i<n; i++){
-            if(abs(i - a[c-1]) >1 && v[i] != 1){
-                a[c] = i;
-                v[i] = 1;
-                if(cal(a, c)) temp+=locate(a, c+1, v);
+    for(int i = 0; i<n; i++){
+        if(abs(i - a[c-1]) >1 && v[i] != 1){
+            a[c] = i;
+            v[i] = 1;
+            if(c+1 == n) return cal(a, c);
+            else if(cal(a, c)) temp+=locate(a, c+1, v);
             
-                v[i] = 0;
-            }
+            v[i] = 0;
         }
     }
     
