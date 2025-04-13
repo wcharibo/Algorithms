@@ -3,52 +3,40 @@
 
 using namespace std;
 
-void dfs(int current, vector<vector<string>> tickets, vector<int> traveled, vector<int> vis, vector<vector<int>> &complete){
-    vis[current] = 1;
-    traveled.push_back(current);
+void dfs(int cur, const vector<vector<string>> tickets, vector<int> visited, vector<int> route, vector<vector<int>> &arrived){
+    visited[cur] = 1;
+    route.push_back(cur);
     
-    if(traveled.size() == tickets.size()){
-        complete.push_back(traveled);
-    }
+    if(route.size() == tickets.size()) arrived.push_back(route);
     else{
-        for(int i = 0; i < tickets.size(); i++){
-            if(vis[i] == 0 && tickets[i][0] == tickets[traveled.back()].back()){
-                dfs(i, tickets, traveled, vis, complete);
-            }
+        for(int i = 0; i<tickets.size(); i++){
+            if(visited[i] == 0 && tickets[cur][1] == tickets[i][0]) dfs(i, tickets, visited, route, arrived);
         }
-        
     }
     
 }
 
 vector<string> solution(vector<vector<string>> tickets) {
-    vector<string> answer;
-    vector<int> start;
-    vector<vector<int>> complete; 
-    vector<int> traveled;
+    vector<string> answer(1, "Z");
+    vector<int> start_airport;
+    vector<vector<int>> arrived;
     
-    for(int i = 0; i < tickets.size(); i++){
-        if(tickets[i][0] == "ICN") start.push_back(i);
-    }
+    for(int i = 0; i<tickets.size(); i++) if(tickets[i][0] == "ICN") start_airport.push_back(i);
     
-    for(int i : start){
+    for(int i : start_airport){
         vector<int> visited(tickets.size(), 0);
+        vector<int> route;
         
-        dfs(i, tickets, traveled, visited, complete);
+        dfs(i, tickets, visited, route, arrived);
     }
     
-    for(vector<int> i : complete){
-        vector<string> temp;
+    for(vector<int> i : arrived){
+        vector<string> temp(1, "ICN");
         for(int j : i){
             temp.push_back(tickets[j][1]);
         }
-        if(answer.empty()) answer = temp;
-        else{
-            if(temp < answer) answer = temp;
-        }
-    }
-    
-    answer.insert(answer.begin(), "ICN");
+        if(temp < answer) answer = temp;
+    } 
     
     return answer;
 }
