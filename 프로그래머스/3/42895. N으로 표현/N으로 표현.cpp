@@ -8,11 +8,12 @@ int solution(int N, int number) {
     int answer = -1, cnt = 1;
     vector<unordered_set<int>> arr(9);
     
-    arr[0].insert(0);
+    int number_form = 0;
+    arr[0].insert(number_form);
     for(int i = 1; i < arr.size(); i++){
-        int temp = (*arr[i-1].begin())*10+N;
-        if(temp == number) return i;
-        else arr[i].insert(temp);
+        number_form = number_form*10+N;
+        if(number_form == number) return i;
+        else arr[i].insert(number_form);
     }
     
     while(cnt < 9){
@@ -36,11 +37,8 @@ int solution(int N, int number) {
                 }
             }
         }
-        
         cnt++;
-        
     }
 
-    
     return answer;
 }
