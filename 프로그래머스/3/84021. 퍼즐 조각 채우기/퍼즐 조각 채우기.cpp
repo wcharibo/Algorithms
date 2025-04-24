@@ -88,7 +88,8 @@ int solution(vector<vector<int>> game_board, vector<vector<int>> table) {
     
     for(int i = 0; i < vacancy.size(); i++){
         for(int j = 0; j < puzzle.size(); j++){
-            if(filled[i] != 1 && used[j] != 1 && fit(vacancy[i], puzzle[j])){
+            int v_size = vacancy[i].size(), p_size = puzzle[j].size();
+            if(filled[i] != 1 && used[j] != 1 && v_size == p_size && fit(vacancy[i], puzzle[j])){
                 filled[i] = 1;
                 used[j] = 1;
                 answer+=vacancy[i].size();
