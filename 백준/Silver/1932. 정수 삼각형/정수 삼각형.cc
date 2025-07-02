@@ -21,18 +21,16 @@ int main(){
 
         triangle.push_back(0);
 
-        triangle[0] = temp[0];
-        *(triangle.end()-1) = *(temp.end()-1);
-        
-        for(int j = 1; j < triangle.size()-1 ; j++){
-            triangle[j] = max(temp[j-1], temp[j]);
+        for(int j = 0; j < temp.size(); j++){
+            for(int k = j; k <= j+1; k++){
+                triangle[k] = max(triangle[k], temp[j]);
+            }
         }
         
         for(int j : temp) max_path = max(max_path, j);
     }
     
     cout<<max_path;
-    
 
     return 0;
 }
