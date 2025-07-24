@@ -4,9 +4,11 @@
 
 using namespace std;
 int main(){
-    int cityNum, oil, min, a, end, oilCost=0;
-    vector <int> cityLength;
-    vector <int> cityCost;
+    int cityNum, min;
+    long long a, oil, oilCost;
+    vector <long long> cityLength;
+    vector <long long> cityCost;
+    oilCost=0;
 
     cin>>cityNum;
     for (int i = 0; i < cityNum-1; i++)
@@ -20,29 +22,19 @@ int main(){
         cin>>a;
         cityCost.push_back(a);
     }
-    
-    if(cityNum>1){
-        for (int j = 0; j < cityNum-1; j++)
-    {
-        min=1;
-        oil=cityLength[j];
-        end=j;
-        for (int i = j+1; i < cityNum-1; i++)
+
+    min=cityCost[0];
+    oilCost+=min*cityLength[0];
+
+    for (int j = 1; j < cityNum-1; j++)
         {
-            if(cityCost[j]<=cityCost[i]&&min==1){
-                oil+=cityLength[i];
-                min=1;
-                end=i;
-            }
-            else {
-                min=0;
-                }
+        if(min>=cityCost[j]){
+            
+            min=cityCost[j];
         }
-        oilCost+=(oil*cityCost[j]);
-        j=end;
+       
+        oilCost+=(min*cityLength[j]);
     }
-    }
-    else oilCost=0;
     
     
     cout<<oilCost;
