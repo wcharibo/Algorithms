@@ -17,24 +17,21 @@ public class Main {
 			st = new StringTokenizer(br.readLine());
 			int sum = 0;
 			for(int j = 1; j <= N; j++) {
-				sum += Integer.parseInt(st.nextToken());
-				map[i][j] = sum;
+				sum += (Integer.parseInt(st.nextToken()));
+				map[i][j] = sum + map[i-1][j];
 			}
 		}
 		
 		for(int i = 0; i < M; i++) {
 			st = new StringTokenizer(br.readLine());
-			int sum = 0;
 			int[] points = new int[4];
 			
-			for(int j = 0; j < points.length; j++) {
-				points[j] = Integer.parseInt(st.nextToken());
-			}
+			int x1 = Integer.parseInt(st.nextToken());
+			int y1 = Integer.parseInt(st.nextToken());
+			int x2 = Integer.parseInt(st.nextToken());
+			int y2 = Integer.parseInt(st.nextToken());
 			
-			
-			for(int j = points[0] ; j <= points[2]; j++) {
-				sum += (map[j][points[3]] - map[j][points[1] - 1]);
-			}
+			int sum = map[x2][y2] - map[x1-1][y2] - map[x2][y1-1] + map[x1-1][y1-1];
 			
 			result.append(sum).append("\n");
 		}
