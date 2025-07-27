@@ -11,12 +11,12 @@ public class Main {
 		StringBuilder result = new StringBuilder();
 		int N = Integer.parseInt(st.nextToken());
 		int M = Integer.parseInt(st.nextToken());
-		int[][] map = new int[N][N];
+		int[][] map = new int[N+1][N+1];
 		
-		for(int i = 0; i < N; i++) {
+		for(int i = 1; i <= N; i++) {
 			st = new StringTokenizer(br.readLine());
 			int sum = 0;
-			for(int j = 0; j < N; j++) {
+			for(int j = 1; j <= N; j++) {
 				sum += Integer.parseInt(st.nextToken());
 				map[i][j] = sum;
 			}
@@ -28,13 +28,12 @@ public class Main {
 			int[] points = new int[4];
 			
 			for(int j = 0; j < points.length; j++) {
-				points[j] = Integer.parseInt(st.nextToken()) - 1;
+				points[j] = Integer.parseInt(st.nextToken());
 			}
 			
 			
 			for(int j = points[0] ; j <= points[2]; j++) {
-				if(points[1] == 0) sum += map[j][points[3]];
-				else sum += (map[j][points[3]] - map[j][points[1] - 1]);
+				sum += (map[j][points[3]] - map[j][points[1] - 1]);
 			}
 			
 			result.append(sum).append("\n");
