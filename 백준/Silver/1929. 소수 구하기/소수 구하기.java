@@ -12,15 +12,14 @@ public class Main {
 		int N = Integer.parseInt(st.nextToken());
 		int M = Integer.parseInt(st.nextToken());
 		boolean[] prime = new boolean[M+1];
-		Arrays.fill(prime, true);
 		int start = 2;
 		
 		while(start < M){
-		    if(prime[start]){
+		    if(!prime[start]){
     		    int multipleMax = M/start;
     		    
     		    for(int j = 2; j <= multipleMax; j++){
-    		        prime[start*j] = false;   
+    		        prime[start*j] = true;   
     		    }
 		        
 		    }
@@ -30,7 +29,7 @@ public class Main {
 		
 		if(N < 2) N = 2;
 		
-		for(int i = N; i < prime.length; i++) if(prime[i]) result.append(i).append("\n");
+		for(int i = N; i < prime.length; i++) if(!prime[i]) result.append(i).append("\n");
 		
 		System.out.println(result);
 	}
