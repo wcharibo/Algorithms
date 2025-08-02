@@ -25,8 +25,9 @@ public class Main{
 		final int K = Integer.parseInt(st.nextToken());
 		final int X = Integer.parseInt(st.nextToken()) - 1;
 		
-		HashMap<Integer, ArrayList<Integer>> cities = new HashMap<>(); 
+		ArrayList<Integer>[] cities = new ArrayList[N]; 
 		int [] visited = new int[N];
+		for(int i = 0; i < N; i++) cities[i] = new ArrayList<Integer>();
 		Arrays.fill(visited, Integer.MAX_VALUE);
 		Queue<Integer> cityQ = new LinkedList<>();
 		
@@ -35,8 +36,7 @@ public class Main{
 			int x = Integer.parseInt(st.nextToken()) - 1;
 			int y = Integer.parseInt(st.nextToken()) - 1;
 			
-			cities.computeIfAbsent(x, k -> new ArrayList<>()).add(y);
-			
+			cities[x].add(y);
 		}
 		
 		visited[X] = 0;
@@ -45,8 +45,8 @@ public class Main{
 		while(!cityQ.isEmpty()) {
 			int cur = cityQ.poll();
 			
-			if(cities.containsKey(cur)) {
-				for(int next : cities.get(cur)) {
+			if(!cities[cur].isEmpty()) {
+				for(int next : cities[cur]) {
 					if(visited[next] == Integer.MAX_VALUE) {
 						visited[next] = visited[cur] + 1;
 						cityQ.add(next);
