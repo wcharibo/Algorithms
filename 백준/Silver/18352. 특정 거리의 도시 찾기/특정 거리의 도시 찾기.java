@@ -1,15 +1,10 @@
-import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 public class Main{
@@ -28,7 +23,7 @@ public class Main{
 		ArrayList<Integer>[] cities = new ArrayList[N]; 
 		int [] visited = new int[N];
 		for(int i = 0; i < N; i++) cities[i] = new ArrayList<Integer>();
-		Arrays.fill(visited, Integer.MAX_VALUE);
+		Arrays.fill(visited, -1);
 		Queue<Integer> cityQ = new LinkedList<>();
 		
 		for(int i = 0; i < M; i++) {
@@ -47,7 +42,7 @@ public class Main{
 			
 			if(!cities[cur].isEmpty()) {
 				for(int next : cities[cur]) {
-					if(visited[next] == Integer.MAX_VALUE) {
+					if(visited[next] == -1) {
 						visited[next] = visited[cur] + 1;
 						cityQ.add(next);
 					}
