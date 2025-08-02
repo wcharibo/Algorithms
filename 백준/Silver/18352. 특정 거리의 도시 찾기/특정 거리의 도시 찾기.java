@@ -25,36 +25,34 @@ public class Main{
 		final int K = Integer.parseInt(st.nextToken());
 		final int X = Integer.parseInt(st.nextToken()) - 1;
 		
-//		boolean[][] cities = new boolean[N][N];
 		HashMap<Integer, ArrayList<Integer>> cities = new HashMap<>(); 
 		int [] visited = new int[N];
 		Arrays.fill(visited, Integer.MAX_VALUE);
-		Queue<Point> cityQ = new LinkedList<>();
+		Queue<Integer> cityQ = new LinkedList<>();
 		
 		for(int i = 0; i < M; i++) {
 			st = new StringTokenizer(br.readLine());
 			int x = Integer.parseInt(st.nextToken()) - 1;
 			int y = Integer.parseInt(st.nextToken()) - 1;
 			
-//			if(cities.computeIfAbsent(x, k -> new ArrayList<>()).add(y)) cities.get(x).add(y);
 			cities.computeIfAbsent(x, k -> new ArrayList<>()).add(y);
 			
 		}
 		
 		visited[X] = 0;
-		for(int y : cities.get(X)) {
-			if(visited[y] == Integer.MAX_VALUE) cityQ.add(new Point(X, y));
-		}
+		cityQ.add(X);
 		
 		while(!cityQ.isEmpty()) {
-			Point cur = cityQ.poll();
+			int cur = cityQ.poll();
 			
-			visited[cur.y] = Math.min(visited[cur.x] + 1, visited[cur.y]);
-			
-			if(cities.containsKey(cur.y))
-				for(int next : cities.get(cur.y)) 
-					if(visited[next] == Integer.MAX_VALUE) cityQ.add(new Point(cur.y, next));		
-			
+			if(cities.containsKey(cur)) {
+				for(int next : cities.get(cur)) {
+					if(visited[next] == Integer.MAX_VALUE) {
+						visited[next] = visited[cur] + 1;
+						cityQ.add(next);
+					}
+				}				
+			}
 		}
 		
 		for(int i = 0 ; i < visited.length; i++) {
