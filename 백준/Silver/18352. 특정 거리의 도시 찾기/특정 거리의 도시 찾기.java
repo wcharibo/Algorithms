@@ -39,6 +39,7 @@ public class Main{
 		
 		while(!cityQ.isEmpty()) {
 			int cur = cityQ.poll();
+			if(visited[cur] == K) break; 
 			
 			if(!cities[cur].isEmpty()) {
 				for(int next : cities[cur]) {
