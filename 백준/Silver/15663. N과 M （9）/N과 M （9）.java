@@ -3,7 +3,7 @@ import java.io.*;
 
 public class Main{
 	static int N, M;
-	static TreeMap<Integer, Integer> numbs = new TreeMap<>((a,b)-> a-b);
+	static ArrayList<Integer> numbs = new ArrayList<>();
 	static Set<List<Integer>> result = new TreeSet<>((a, b) -> {
 		for(int i = 0; i < a.size(); i++) {
 			if(a.get(i) == b.get(i)) continue;
@@ -12,23 +12,23 @@ public class Main{
 		return 0;
 	});
 	static ArrayList<Integer> arr = new ArrayList<>();
+	static boolean[] visited;
 	
 	static void fill(Integer cur) {
-		for(int num : numbs.keySet()) {
-			int numCnt = numbs.get(num);
+		for(int i = 0; i < numbs.size(); i++) {
 			if(cur == M) {
-				if(numCnt >= 1) {
-					arr.add(num);
+				if(!visited[i]) {
+					arr.add(numbs.get(i));
 					result.add(new ArrayList<>(arr));
 					arr.remove(arr.size()-1);
 				}
 			}
-			else if(numCnt >= 1) {
-				arr.add(num);
-				numbs.put(num, --numCnt);
+			else if(!visited[i]) {
+				arr.add(numbs.get(i));
+				visited[i] = true;
 				fill(cur+1);
-				numbs.put(num, ++numCnt);
 				arr.remove(arr.size()-1);
+				visited[i] = false;
 			}
 		}
 	}
@@ -40,14 +40,13 @@ public class Main{
 		
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
+		visited = new boolean[N];
 		
 		st = new StringTokenizer(br.readLine());
 		for(int i = 0 ; i < N; i++) {
-			int j = Integer.parseInt(st.nextToken());
-			if(numbs.containsKey(j)) {
-				numbs.put(j, numbs.get(j) + 1);
-			} else numbs.put(j, 1);
+			numbs.add( Integer.parseInt(st.nextToken()));
 		}
+		numbs.sort((a,b)-> a-b);
 		
 		fill(1);
 		
