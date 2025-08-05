@@ -5,35 +5,6 @@
 
 using namespace std;
 
-// int check_graph(int i, vector<vector<int>> results, vector<int> vis, int &flag, int n){
-//     vis[results[i][0]] = 1;
-    
-//     if(vis.size() == n) flag = 1;
-//     else if(flag==0){
-//         for(int j = 0; j < results.size(); j++){
-//             if(vis[j] == 0 && results[j][0] == results[i][1]){
-//                 flag = check_graph(j, results, vis, flag, n);
-//             }
-//         }
-//     }
-    
-//     return flag;
-// }
-
-// int solution(int n, vector<vector<int>> results) {
-//     int answer = 0, pos = 0;
-//     vector<vector<int>> match(n);
-//     vector<int> visited(n, 0);
-    
-//     pos = check_graph(0, results, visited, pos, n);
-    
-//     if(pos == 1){
-//         for(vector<int> i : results) match[i[0]-1].push_back(i[1]-1);
-//     }
-//     else return answer;
-  
-//     return answer;
-// }
 
 int solution(int n, vector<vector<int>> results){
     int answer = 0;
