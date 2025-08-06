@@ -31,7 +31,7 @@ class Main {
 		while(!que.isEmpty()) {
 			int cur = que.poll();
 			
-			if(dist[cur] >= 3) continue;
+			if(dist[cur] >= 2) continue;
 			
 			for(int i = 1; i < friends[cur].length; i++) {
 				if(friends[cur][i]) {
