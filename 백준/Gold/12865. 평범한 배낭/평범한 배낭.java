@@ -22,15 +22,12 @@ class Main {
 		
 		for(int i = 1; i <=N; i++) {
 			for(int j = 1; j <= K; j++) {
+				bag[i][j] = bag[i-1][j];
+				
 				if(weight[i] <= j) {
-					if(value[i] + bag[i-1][j-weight[i]] > bag[i-1][j]) {
-						bag[i][j] = value[i] + bag[i-1][j-weight[i]];
-					}else {
-						bag[i][j] = bag[i-1][j];
-					}
-				}else {
-					bag[i][j] = bag[i-1][j];
+					bag[i][j] = Math.max(value[i] + bag[i-1][j - weight[i]], bag[i][j]);
 				}
+				
 				max = Math.max(max, bag[i][j]);
 			}
 		}
