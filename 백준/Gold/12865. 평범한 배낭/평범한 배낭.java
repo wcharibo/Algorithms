@@ -27,11 +27,9 @@ class Main {
 				if(weight[i] <= j) {
 					bag[i][j] = Math.max(value[i] + bag[i-1][j - weight[i]], bag[i][j]);
 				}
-				
-				max = Math.max(max, bag[i][j]);
 			}
 		}
 		
-		System.out.println(max);
+		System.out.println(bag[N][K]);
 	}
 }
