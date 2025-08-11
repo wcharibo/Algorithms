@@ -1,67 +1,53 @@
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
+
+import java.io.*;
+import java.util.*;
 
 public class Main {
-	static ArrayList<Integer>[] graph;
 	static boolean[] visited;
+	static ArrayList[] connection;
+	static int result;
 
-	public static void main(String[] args) throws IOException {
-//		System.setIn(new FileInputStream("Test3.txt"));
+	public static void main(String[] args) throws Exception {
+
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String[] str = br.readLine().split(" ");
-		int N = Integer.parseInt(str[0]);
-		int M = Integer.parseInt(str[1]);
-		
-		graph = new ArrayList[N + 1];
-		for(int i = 0; i <= N; i++) {
-			graph[i] = new ArrayList<>();
-		}
-		
-		for(int i = 0; i < M; i++) {
-			String[] input = br.readLine().split(" ");
-			int u = Integer.parseInt(input[0]);
-			int v = Integer.parseInt(input[1]);
-			
-			graph[u].add(v);
-			graph[v].add(u);
-		}
-		
-		visited = new boolean[N + 1];
-		
+		StringTokenizer st = new StringTokenizer(br.readLine());
+
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
 		int result = 0;
-		for(int i = 1; i <= N; i++) {
-			if(!visited[i]) {
-				bfs(i);
+		visited = new boolean[N + 1];
+		visited[0] = true;
+
+		connection = new ArrayList[N + 1];
+		for (int i = 0; i <= N; i++)
+			connection[i] = new ArrayList<Integer>();
+
+		for (int i = 0; i < M; i++) {
+			st = new StringTokenizer(br.readLine());
+
+			int start = Integer.parseInt(st.nextToken());
+			int end = Integer.parseInt(st.nextToken());
+
+			connection[start].add(end);
+			connection[end].add(start);
+		}
+
+		for (int i = 1; i <= N; i++) {
+			if (!visited[i]) {
+				dfs(i);
 				result++;
 			}
 		}
-		
+
 		System.out.println(result);
 	}
-	
-	static void bfs(int start) {
-		Queue<Integer> q = new LinkedList<>();
-		q.add(start);
-		
-		while(!q.isEmpty()) {
-			int current = q.poll();
-			visited[current] = true;
-			
-			for(int i = 0; i < graph[current].size(); i++) {
-				int next = graph[current].get(i);
-				if(!visited[next])
-				{
-					q.add(next);
-					visited[next] = true;
-				}
-					
-			}
+
+	static void dfs(int i) {
+		visited[i] = true;
+		for (int j = 0; j < connection[i].size(); j++) {
+			int cur = (int)connection[i].get(j);
+			if (!visited[cur]) dfs(cur);
 		}
 	}
+
 }
