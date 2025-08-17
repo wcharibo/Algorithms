@@ -3,25 +3,23 @@ import java.util.*;
 
 public class Main {
 	static boolean[][] map;
-	static int[][] dir = { { -1, 1 }, { 0, 1 }, { 1, 1 } };
+	static int[] dir = { -1, 0, 1 };
 
 	static boolean dfs(int curRow, int curCol) {
-		if (curCol == map[0].length -1 && curRow == map.length -1) {
-			return true;
-		} else if (curCol == map[0].length -1 ) {
+		if (curCol == map[0].length -1 ) {
 			return true;
 		}
 		
 		
 		for(int i = 0; i < 3; i++) {
-			int nextRow = curRow + dir[i][0], nextCol = curCol + dir[i][1];
+			int nextRow = curRow + dir[i];
 			
 			boolean flag = false;
 			
-			if(0 <= nextRow && nextRow< map.length && 0 <= nextCol && nextCol < map[0].length) {
-				if(!map[nextRow][nextCol]) {
-					map[nextRow][nextCol] = true;
-					flag = dfs(nextRow, nextCol);
+			if(0 <= nextRow && nextRow< map.length ) {
+				if(!map[nextRow][curCol + 1]) {
+					map[nextRow][curCol + 1] = true;
+					flag = dfs(nextRow, curCol + 1);
 					if(flag) return flag;
 				}
 			}
@@ -31,7 +29,6 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
 
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int R = Integer.parseInt(st.nextToken());
