@@ -22,7 +22,7 @@ public class Main {
 		return true;
 	}
 	
-	static class Edge{
+	static class Edge implements Comparable<Edge>{
 		int start;
 		int end;
 		int fare;
@@ -33,6 +33,10 @@ public class Main {
 			this.fare = fare;
 		}
 		
+		@Override
+		public int compareTo(Edge edge) {
+			return Integer.compare(this.fare, edge.fare);
+		}
 		
 	}
 
@@ -56,7 +60,7 @@ public class Main {
 		int cnt = 0;
 		int unionCnt = 0;
 		root = new int[V+1];
-		PriorityQueue<Edge> edges = new PriorityQueue<>((a,b)-> a.fare-b.fare);
+		PriorityQueue<Edge> edges = new PriorityQueue<>();
 //		Edge[] edges = new Edge[E];
 		
 		for(int i = 1; i <= V; i++) root[i] = i;
@@ -71,12 +75,9 @@ public class Main {
 		}
 		
 		while(unionCnt < V && !edges.isEmpty()) {
-			int start = edges.peek().start;
-			int end = edges.peek().end;
-			int fare = edges.poll().fare;
-			
-			if(unionCnt < V && union(start, end)) {
-				cnt+=fare;
+			Edge cur = edges.poll();
+			if(unionCnt < V && union(cur.start, cur.end)) {
+				cnt+=cur.fare;
 				unionCnt++;
 			}
 		}
