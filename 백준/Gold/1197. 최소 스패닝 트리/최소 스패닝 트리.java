@@ -56,7 +56,8 @@ public class Main {
 		int cnt = 0;
 		int unionCnt = 0;
 		root = new int[V+1];
-		Edge[] edges = new Edge[E];
+		PriorityQueue<Edge> edges = new PriorityQueue<>((a,b)-> a.fare-b.fare);
+//		Edge[] edges = new Edge[E];
 		
 		for(int i = 1; i <= V; i++) root[i] = i;
 		
@@ -66,23 +67,20 @@ public class Main {
 			int end = Integer.parseInt(st.nextToken());
 			int fare = Integer.parseInt(st.nextToken());
 				
-			edges[i] = new Edge(start, end, fare);
+			edges.add(new Edge(start, end, fare));
 		}
 		
-		Arrays.sort(edges, (a,b)->{
-			return a.fare - b.fare;
-		});
-		
-		for(int i = 0; i < edges.length; i++) {
-			int start = edges[i].start;
-			int end = edges[i].end;
-			int fare = edges[i].fare;
+		while(unionCnt < V && !edges.isEmpty()) {
+			int start = edges.peek().start;
+			int end = edges.peek().end;
+			int fare = edges.poll().fare;
 			
 			if(unionCnt < V && union(start, end)) {
 				cnt+=fare;
 				unionCnt++;
 			}
 		}
+		
 		
 		System.out.println(cnt);
 		
