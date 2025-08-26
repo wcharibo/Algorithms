@@ -35,7 +35,7 @@ public class Main {
 		
 		@Override
 		public int compareTo(Edge edge) {
-			return Integer.compare(this.fare, edge.fare);
+			return this.fare- edge.fare;
 		}
 		
 	}
@@ -75,9 +75,12 @@ public class Main {
 		}
 		
 		while(unionCnt < V && !edges.isEmpty()) {
-			Edge cur = edges.poll();
-			if(unionCnt < V && union(cur.start, cur.end)) {
-				cnt+=cur.fare;
+			int start = edges.peek().start;
+			int end = edges.peek().end;
+			int fare = edges.poll().fare;
+			
+			if(unionCnt < V && union(start, end)) {
+				cnt+=fare;
 				unionCnt++;
 			}
 		}
