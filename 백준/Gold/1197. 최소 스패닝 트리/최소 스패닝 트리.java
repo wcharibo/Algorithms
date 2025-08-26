@@ -22,7 +22,7 @@ public class Main {
 		return true;
 	}
 	
-	static class Edge implements Comparable<Edge>{
+	static class Edge {
 		int start;
 		int end;
 		int fare;
@@ -33,12 +33,19 @@ public class Main {
 			this.fare = fare;
 		}
 		
-		@Override
-		public int compareTo(Edge edge) {
-			return this.fare- edge.fare;
-		}
+//		@Override
+//		public int compareTo(Edge edge) {
+//			return this.fare- edge.fare;
+//		}
 		
 	}
+	
+	public static Comparator<Edge> edgeComparator = new Comparator<Edge>() {
+		@Override
+		public int compare(Edge e1, Edge e2) {
+			return e1.fare - e2.fare;
+		}
+	};
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -60,7 +67,7 @@ public class Main {
 		int cnt = 0;
 		int unionCnt = 0;
 		root = new int[V+1];
-		PriorityQueue<Edge> edges = new PriorityQueue<>();
+		PriorityQueue<Edge> edges = new PriorityQueue<>((a,b)->a.fare-b.fare);
 //		Edge[] edges = new Edge[E];
 		
 		for(int i = 1; i <= V; i++) root[i] = i;
@@ -79,7 +86,7 @@ public class Main {
 			int end = edges.peek().end;
 			int fare = edges.poll().fare;
 			
-			if(unionCnt < V && union(start, end)) {
+			if(union(start, end)) {
 				cnt+=fare;
 				unionCnt++;
 			}
