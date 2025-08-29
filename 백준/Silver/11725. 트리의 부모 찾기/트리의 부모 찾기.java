@@ -1,8 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-import java.awt.*;
-
 public class Main {
 	static ArrayList<Integer>[] edges;
 	static int[] roots;
@@ -23,6 +21,7 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 
 		int N = Integer.parseInt(br.readLine());
 		edges = new ArrayList[N+1];
@@ -45,7 +44,9 @@ public class Main {
 		connect(1);
 		
 		for(int i = 2; i < roots.length; i++) {
-			System.out.println(roots[i]);
+			sb.append(roots[i]).append("\n");
 		}
+		
+		System.out.println(sb);
 	}
 }
