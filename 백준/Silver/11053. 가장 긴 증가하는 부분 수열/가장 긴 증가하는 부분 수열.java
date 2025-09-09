@@ -2,44 +2,53 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-	static int find(int cur, int[] arr, int[] lis) {
-		int max = 0;
-		
-		for(int i = 0; i < cur; i++) {
-			if(arr[cur] > arr[i]) {
-				max = Math.max(lis[i]+1, max);
-			}
-		}
-		
-		return max;
-	}
-	
-	public static void main(String[] args) throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		
-		
-		int N = Integer.parseInt(br.readLine());
-		int result = -1;
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		
-		int[] arr = new int[N];
-		int[] lis = new int[N];
-		
-		
-		for(int i = 0; i < N; i++) {
-			arr[i] = Integer.parseInt(st.nextToken());
-		}
-		
-		for(int i = 1; i < N; i++) {
-			lis[i] = find(i, arr, lis);
+	static ArrayList<Integer> c;
+	static int[] lis, arr;
+
+	static void find(int cur) {
+
+		if (c.isEmpty() || arr[cur] > c.get(c.size() - 1)) {
+			c.add(arr[cur]);
+			return;
 		}
 
-		for(int i = 0; i < N; i++) {
-			result = Math.max(result, lis[i]);
+		findProper(arr[cur], 0, c.size() - 1);
+
+		return;
+	}
+
+	static void findProper(int value, int left, int right) {
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (c.get(mid) < value) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        c.set(left, value);
+    }
+
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+
+		int N = Integer.parseInt(br.readLine());
+		StringTokenizer st = new StringTokenizer(br.readLine());
+
+		arr = new int[N];
+		lis = new int[N];
+		c = new ArrayList<>();
+
+		for (int i = 0; i < N; i++) {
+			arr[i] = Integer.parseInt(st.nextToken());
 		}
-//		System.out.println(Arrays.toString(lis));
+
+		for (int i = 0; i < N; i++) {
+			find(i);
+		}
 		
-		System.out.println(result+1);
+		
+		System.out.println(c.size());
 	}
 }
