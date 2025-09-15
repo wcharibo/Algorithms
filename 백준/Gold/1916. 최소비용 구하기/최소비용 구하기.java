@@ -1,87 +1,75 @@
-import java.awt.Point;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
 public class Main {
-	static public class Pair {
-		Long fare;
-		Integer p;
-
-		public Pair(Long fare, Integer p) {
+	static class Edge implements Comparable<Edge>{
+		int dest;
+		int fare;
+		
+		Edge(int dest, int fare){
+			this.dest = dest;
 			this.fare = fare;
-			this.p = p;
 		}
 
-		public Long x() {
-			return this.fare;
+		@Override
+		public int compareTo(Edge o) {
+			return this.fare - o.fare;
 		}
-
-		public Integer y() {
-			return this.p;
-		}
-
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		StringBuilder result = new StringBuilder();
 		
-		int N = Integer.parseInt(st.nextToken());
-		st = new StringTokenizer(br.readLine());
-		int M = Integer.parseInt(st.nextToken());
+		int N = Integer.parseInt(br.readLine());
+		int M = Integer.parseInt(br.readLine());
 		
-		int[][] travelCost = new int[N+1][N+1];
-		PriorityQueue<Pair> q = new PriorityQueue<Pair>((i,j) -> (int)(i.x() - j.x()));
-		boolean[] visited = new boolean[N+1];
-		long[] fromStartCost = new long[N+1];
+		int[][] map = new int[N+1][N+1];
 		
-		for(int i = 1; i < N+1; i++) Arrays.fill(travelCost[i],	-1);
-		Arrays.fill(fromStartCost, Integer.MAX_VALUE);
-		
-		for(int i = 0; i < M; i++) {
-			st = new StringTokenizer(br.readLine());
-			int x = Integer.parseInt(st.nextToken());
-			int y = Integer.parseInt(st.nextToken());
-			int cost = Integer.parseInt(st.nextToken());
-			
-			if(travelCost[x][y] != -1) travelCost[x][y] = Math.min(travelCost[x][y], cost);
-			else travelCost[x][y] = cost;
+		for(int i = 1; i <= N; i++) {
+			Arrays.fill(map[i], -1);
 		}
 		
-		st = new StringTokenizer(br.readLine());
-		int goalStart = Integer.parseInt(st.nextToken());
-		int goalEnd = Integer.parseInt(st.nextToken());
+		for(int i = 0; i < M; i++) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			
+			int start = Integer.parseInt(st.nextToken());
+			int dest = Integer.parseInt(st.nextToken());
+			int fare = Integer.parseInt(st.nextToken());
+			
+			if(map[start][dest] == -1) {
+				map[start][dest] = fare;
+			}else {
+				map[start][dest] = Math.min(map[start][dest], fare);
+			}
+			
+		}
 		
-		fromStartCost[goalStart] = 0;
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int start = Integer.parseInt(st.nextToken());
+		int end = Integer.parseInt(st.nextToken());
 		
-		q.add(new Pair( 0L, goalStart));
+		PriorityQueue<Edge> q = new PriorityQueue<>();
+		int[] distance = new int[N+1];
+		
+		Arrays.fill(distance, Integer.MAX_VALUE);
+		distance[start] = 0;
+		q.add(new Edge(start, 0));
 		
 		while(!q.isEmpty()) {
-			Pair cur = q.poll();
 			
-			visited[cur.y()] = true;
+			Edge cur = q.poll();
 			
-			for(int i = 1; i < travelCost[cur.y()].length; i++) {
-				if(travelCost[cur.y()][i] != -1 && !visited[i]) {
-					if(fromStartCost[i] > fromStartCost[cur.y()] + travelCost[cur.y()][i]) {
-						fromStartCost[i] = fromStartCost[cur.y()] + travelCost[cur.y()][i];
-						q.add(new Pair(fromStartCost[cur.y()] + travelCost[cur.y()][i] , i));
+			for(int i = 1; i <= N; i++) {
+				if(map[cur.dest][i] != -1) {
+					if(distance[i] > distance[cur.dest] + map[cur.dest][i]) {
+						distance[i] = distance[cur.dest] + map[cur.dest][i];
+						q.add(new Edge(i, distance[cur.dest] + map[cur.dest][i]));
 					}
 				}
 			}
-			
-			
 		}
 		
-		System.out.println(fromStartCost[goalEnd]);
-		
+		System.out.println(distance[end]);
 	}
+
 }
