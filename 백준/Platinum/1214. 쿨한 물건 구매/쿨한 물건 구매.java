@@ -24,49 +24,28 @@ public class Main {
 		
 		int compensation = Q/P;
 		
-		int prevP = D/P + 1;
-		int prevQ = 0;
 		int curP = D/P + 1;
 		int curQ = 0;
+		int cur = curP * P + curQ * Q;
 		
 		while(curP >= 0 && curQ >= 0) {
-			int cur = curP * P + curQ * Q;
-//			System.out.println("before " + cur + "  P: " + curP + ". Q: " + curQ);
-			result = Math.min(result , curP * P + curQ * Q);
+			result = Math.min(result , cur);
+            
 			if(cur == D) {
 				break;
 			}
 			
-			
 			curQ++;
 			curP-=compensation;
-			
+            
 			while(curP * P + curQ * Q >= D) {
 				curP--;
 			}
-			
+
 			curP++;
 			
 			cur = curP * P + curQ * Q;
-//			System.out.println("after "+ cur + "  P: " + curP + ". Q: " + curQ);
-			
-//			if((prevP * P + prevQ*Q) - D < cur - D) {
-//				curP = prevP;
-//				curQ = prevQ;
-//				break;
-//			}
-			
-			prevP = curP;
-			prevQ = curQ;
-			
-//			System.out.println("after "+ cur + "  P: " + curP + ". Q: " + curQ);
-			
 		}
-		
-		
-//		System.out.println("-----------");
 		System.out.println(result);
-		
-		
 	}
 }
