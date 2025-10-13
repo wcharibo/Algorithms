@@ -26,7 +26,7 @@ public class Main {
 		int X = Integer.parseInt(st.nextToken()) -1;
 
 		ArrayList<Pair>[] edges = new ArrayList[N];
-		ArrayList<Pair>[] revEdges = new ArrayList[N];		
+		ArrayList<Pair>[] revEdges = new ArrayList[N];	
 		
 		for(int i = 0; i < N; i++) {
 			edges[i] = new ArrayList<>();
@@ -54,20 +54,20 @@ public class Main {
 			int start = X;
 			
 			PriorityQueue<Pair> pq = new PriorityQueue<>();
-			HashSet<Integer> vist = new HashSet<>();
+//			HashSet<Integer> vist = new HashSet<>();
+			boolean[] visited = new boolean[N]; 
 			
 			Arrays.fill(dist[j], 100000);
 			dist[j][start] = 0;
 			pq.add(new Pair(start, 0));
 
 			
-			while(vist.size() != N) {
+			while(!pq.isEmpty()) {
 				Pair cur = pq.poll();
-				
-				if(!vist.add(cur.target)) continue;
+				visited[cur.target] = true;
 				
 				for(Pair next : edges[cur.target]) {
-					if(!vist.contains(next.target)) {
+					if(!visited[next.target]) {
 						int temp = cur.fare + next.fare;
 						if(dist[j][next.target] > temp) {
 							dist[j][next.target] = temp;
@@ -77,20 +77,13 @@ public class Main {
 				}
 			}
 		}
-		
-		
-		int[] result = new int[N];
-
-		for (int i = 0; i < N; i++) {
-			result[i] += dist[0][i];
-			result[i] += dist[1][i];
-		}
 
 		int max = Integer.MIN_VALUE;
-
+		
 		for (int i = 0; i < N; i++) {
-			max = Math.max(max, result[i]);
+			max = Math.max(max, dist[0][i] + dist[1][i]);
 		}
+
 
 		System.out.println(max);
 	}
