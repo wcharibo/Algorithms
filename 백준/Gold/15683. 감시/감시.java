@@ -7,6 +7,14 @@ public class Main {
 	static int[][] dirs = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 	static int[][] office;
 	static List<int[]> CCTVs;
+	static int[][][] directs = { 
+			{}, 
+			{ { 0 }, { 1 }, { 2 }, { 3 } }, 
+			{ { 0, 2 }, { 1, 3 } },
+			{ { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 0 } }, 
+			{ { 0, 1, 2 }, { 1, 2, 3 }, { 2, 3, 0 }, { 3, 0, 1 } },
+			{ { 0, 1, 2, 3 } }, 
+			};
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -35,54 +43,30 @@ public class Main {
 
 	private static void find(int[] directions, int cur) {
 		if (cur == directions.length) {
-			
 			fill(-1, directions);
 			result = Math.min(result, calc());
 			fill(0, directions);
 			return;
 		}
-
-		if (office[CCTVs.get(cur)[0]][CCTVs.get(cur)[1]] == 5) {
-			directions[cur] = 0;
+		
+		int cx = CCTVs.get(cur)[0];
+		int cy = CCTVs.get(cur)[1];
+		for (int i = 0; i < directs[office[cx][cy]].length; i++) {
+			directions[cur] = i;
 			find(directions, cur + 1);
-		} else if (office[CCTVs.get(cur)[0]][CCTVs.get(cur)[1]] == 2) {
-			for (int i = 0; i < 2; i++) {
-				directions[cur] = i;
-				find(directions, cur + 1);
-			}
-		} else {
-			for (int i = 0; i < dirs.length; i++) {
-				directions[cur] = i;
-				find(directions, cur + 1);
-			}
 		}
-
 	}
 
 	private static void fill(int val, int[] directions) {
-		for(int cur = 0; cur < directions.length; cur++) {
-			int dir = directions[cur]; 
+		for (int cur = 0; cur < directions.length; cur++) {
+			int dir = directions[cur];
 			int cx = CCTVs.get(cur)[0];
 			int cy = CCTVs.get(cur)[1];
 			List<Integer> dirList = new ArrayList<>();
 			dirList.add(dir);
 
-			switch (office[cx][cy]) {
-			case 2:
-				dirList.add(dir + 2);
-				break;
-			case 3:
-				dirList.add(dir + 1 == 4 ? 0 : dir + 1);
-				break;
-			case 4:
-				dirList.add(dir - 1 == -1 ? 3 : dir - 1);
-				dirList.add(dir + 1 == 4 ? 0 : dir + 1);
-				break;
-			case 5:
-				for (int i = 1; i < 4; i++) {
-					dirList.add(dir + i);
-				}
-				break;
+			for (int j : directs[office[cx][cy]][directions[cur]]) {
+				dirList.add(j);
 			}
 
 			for (int d : dirList) {
@@ -104,7 +88,6 @@ public class Main {
 				}
 			}
 		}
-		
 	}
 
 	private static int calc() {
