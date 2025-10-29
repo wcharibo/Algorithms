@@ -54,7 +54,9 @@ public class Main {
 		
 		vis[b2[0]][b2[1]] = false;
 		q.clear();
-		routes = new Edge[M][N];
+		for(int i = 0; i < M; i++) {
+			Arrays.fill(routes[i], null);
+		}
 		if (bfs(q, vis, routes, b1, b2, a1, a2)) {
 			aFDist += calc(routes, vis, b2);
 		}else {
@@ -62,10 +64,14 @@ public class Main {
 		}
 
 		// b부터 최적경로
-		vis = new boolean[M][N];
+		for(int i = 0; i < M; i++) {
+			Arrays.fill(vis[i], false);
+		}
 		q.clear();
 		int bFDist = 0;
-		routes = new Edge[M][N];
+		for(int i = 0; i < M; i++) {
+			Arrays.fill(routes[i], null);
+		}
 		if (bfs(q, vis, routes, b1, b2, a1, a2)) {
 			vis = new boolean[routes.length][routes[0].length];
 			bFDist += calc(routes, vis, b2);
@@ -77,7 +83,9 @@ public class Main {
 		q.clear();
 		vis[a1[0]][a1[1]] = false;
 		vis[a2[0]][a2[1]] = false;
-		routes = new Edge[M][N];
+		for(int i = 0; i < M; i++) {
+			Arrays.fill(routes[i], null);
+		}
 		if (bfs(q, vis, routes, a1, a2, b1, b2)) {
 			bFDist += calc(routes, vis, a2);
 		}else {
