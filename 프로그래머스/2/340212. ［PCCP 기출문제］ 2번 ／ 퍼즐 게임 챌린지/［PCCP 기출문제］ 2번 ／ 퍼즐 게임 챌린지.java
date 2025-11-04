@@ -13,6 +13,7 @@ class Solution {
             
             for(int i = 1; i < diffs.length; i++){
                 time += ((diffs[i] > mid ? diffs[i] - mid : 0)*(times[i] + times[i-1]) + times[i]);
+                if(time > limit) break;
             }
             
             if(time > limit){
