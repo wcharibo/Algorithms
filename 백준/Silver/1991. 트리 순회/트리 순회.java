@@ -24,27 +24,28 @@ public class Main{
 			this.right = right;
 		}
 		
-		public void preorder() {
-			System.out.print((char)('A' + this.name));
-			if(this.left > 0) tree[this.left].preorder();
-			if(this.right > 0) tree[this.right].preorder();
+		public void preorder(StringBuilder sb) {
+			sb.append((char)('A' + this.name));
+			if(this.left > 0) tree[this.left].preorder(sb);
+			if(this.right > 0) tree[this.right].preorder(sb);
 		}
 		
-		public void inorder() {
-			if(this.left > 0) tree[this.left].inorder();
-			System.out.print((char)('A' + this.name));
-			if(this.right > 0) tree[this.right].inorder();
+		public void inorder(StringBuilder sb) {
+			if(this.left > 0) tree[this.left].inorder(sb);
+			sb.append((char)('A' + this.name));
+			if(this.right > 0) tree[this.right].inorder(sb);
 		}
 		
-		public void postorder() {
-			if(this.left > 0) tree[this.left].postorder();
-			if(this.right > 0) tree[this.right].postorder();
-			System.out.print((char)('A' + this.name));
+		public void postorder(StringBuilder sb) {
+			if(this.left > 0) tree[this.left].postorder(sb);
+			if(this.right > 0) tree[this.right].postorder(sb);
+			sb.append((char)('A' + this.name));
 		}
 	}
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 		
 		int T = Integer.parseInt(br.readLine());
 		
@@ -58,11 +59,14 @@ public class Main{
 			tree[parent].setRight(st.nextToken().charAt(0) - 65);
 		}
 		
-		tree[0].preorder();
-		System.out.println();
-		tree[0].inorder();
-		System.out.println();
-		tree[0].postorder();
+		tree[0].preorder(sb);
+		System.out.println(sb.toString());
+		sb = new StringBuilder();
+		tree[0].inorder(sb);
+		System.out.println(sb.toString());
+		sb = new StringBuilder();
+		tree[0].postorder(sb);
+		System.out.println(sb);
 		
 		
 		
