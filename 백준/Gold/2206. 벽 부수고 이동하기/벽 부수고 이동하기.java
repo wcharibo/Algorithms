@@ -50,7 +50,7 @@ public class Main{
 		after[0][0] = 1;
 		
 		
-		while(!q.isEmpty() && (q.peek().x != N-1 || q.peek().y != M-1)) {
+		while(!q.isEmpty() && !(q.peek().x == N-1 && q.peek().y == M-1)) {
 			Pair cur = q.poll();
 			
 			for(int dir = 0; dir < dirs.length; dir++) {
@@ -81,7 +81,7 @@ public class Main{
 		}
 		
 				
-		System.out.println(before[N-1][M-1] == 0 ? (after[N-1][M-1] == 0 ? -1 : after[N-1][M-1]) : (after[N-1][M-1] == 0 ? before[N-1][M-1] : Math.min(before[N-1][M-1], after[N-1][M-1])));
+		System.out.println(before[N-1][M-1] == 0 ? after[N-1][M-1] == 0 ? -1 : after[N-1][M-1] : before[N-1][M-1]);
 		
 		
 	}
