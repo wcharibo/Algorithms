@@ -1,94 +1,87 @@
-import java.io.*;
-import java.util.*;
-
-public class Main {
-	static class Edge{
-		int dest;
-		int fare;
-		
-		Edge(int dest, int fare){
-			this.dest = dest;
-			this.fare = fare;
-		}
+//https://github.com/kimyongj/algorithm
+//https://www.acmicpc.net/problem/1800
+import java.util.Arrays;
+import java.util.PriorityQueue;
+class Node{	// 인접 노드 표현
+	int node, cost; Node next;	Node(int node, int cost, Node next){this.node=node;this.cost=cost;this.next=next;}
+}
+class Qnode{// 큐에 들어갈 노드객체
+	int node,  K;	Qnode(int node, int K){this.node=node; this.K=K;}
+}
+class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
-	
-	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
+	public static boolean dijkstra(int maxValue, int N, int K, Node[] adNode) {
+		PriorityQueue<Qnode> pq = new PriorityQueue<>((a,b)-> a.K - b.K);
+		int useK[] = new int[N+1];
 		
-		int N = Integer.parseInt(st.nextToken());
-		int P = Integer.parseInt(st.nextToken());
-		int K = Integer.parseInt(st.nextToken());
-		int maxFare = 0;
+		Arrays.fill(useK, Integer.MAX_VALUE);
 		
-		List<Edge>[] conns = new List[N+1];
-		
-		for(int i = 1; i <= N; i++) conns[i] = new ArrayList<Edge>();
-		
-		for(int i = 0; i < P; i++) {
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-			int c = Integer.parseInt(st.nextToken());
-			
-			conns[a].add(new Edge(b, c));
-			conns[b].add(new Edge(a, c));
-			maxFare = Math.max(maxFare, c);
-		}
-		
-		//이분 탐색을 통해 가장 저렴하게 연결한 전체 간선들 중 가장 큰 간선의 값을 찾아보기 
-		int start = 0;
-		int end = maxFare;
-		int answer = -1;
-		
-		while(start <= end) {
-			// 0-1 BFS 통해서 K번 간선을 무시하며 연결할 수 있는 가장 저렴한 경로를 찾으려고 하기 때문에 BFS에 사용할 거리 정보 배열 
-			int[] costs = new int[N+1];
-			Arrays.fill(costs, Integer.MAX_VALUE);
-			
-			int mid = (start + end)/2;
-			//0-1 BFS는 0은 앞에 넣고 1은 뒤에 넣어서 priorityqueue를 쓸 때 발생하는 정렬에 대한 시간을 줄일 수 있음, 그러기 위해 deque사용 
-			ArrayDeque<Integer> q = new ArrayDeque<>();
-			q.addFirst(N);
-			costs[N] = 0;
-			
-			while(!q.isEmpty()) {
-				//queue의 정렬을 보장하면서 priority queue의 장점은 얻기 위해 0-1 BFS 사용한거니까 똑같이 앞에 값 poll();
-				int cur = q.poll();
-				
-				for(Edge next : conns[cur]) {
-					// 내가 찾으려고 하는 값보다 크면 1 작거나 같으면 0의 비용으로 계산 
-					int oneZero = next.fare > mid ? 1 : 0;
-					
-					if(costs[next.dest] > costs[cur] + oneZero) {
-						costs[next.dest] = costs[cur] + oneZero;
-						
-						//1이면 뒤
-						if(oneZero == 1) q.addLast(next.dest);
-						//0이면 앞
-						else {
-							q.addFirst(next.dest);
-						}
+		pq.add(new Qnode(1, 0));// 처음은 1번 학생이 0개의 K를 사용함
+		useK[1] = 0;			// 1번학생은 0개의 K를 사용함
+		while(!pq.isEmpty())
+		{
+			Qnode now = pq.poll();
+			if(now.node == N)
+				return true;
+
+			for(Node next=adNode[now.node]; next != null; next=next.next)
+			{
+				if(maxValue < next.cost)
+				{
+					if(now.K < K && now.K + 1 < useK[next.node])
+					{
+						useK[next.node] = now.K + 1; 
+						pq.add(new Qnode(next.node, now.K + 1));
+					}
+				}
+				else
+				{
+					if(now.K < useK[next.node])
+					{
+						useK[next.node] = now.K; 
+						pq.add(new Qnode(next.node, now.K));
 					}
 				}
 			}
-			//1에 도착하는 최소의 비용을 가지는 경로를 찾았는 데, costs[1]의 값이 K보다 크다는 말은 현재의 경로를 선택하기 위해서는 K보다 더 많은 간선을 무료로 제공받아야
-			//가능한 경로라는 뜻이므로 불가능한 경로라는 판단. 따라서, 더 적은 간선을 무료로 제공받기 위해 더 큰 값들을 탐색함. 현재 경로는 불가능하므로 answer 업데이트 안함.
-			if(costs[1] > K) {
-				start = mid + 1;
-			}
-			//1에 도착하는 최소의 비용을 가지는 경로를 찾았는 데, 더 작은 값도 가능할 수도 있음.(더 저렴하게 인터넷을 연결할 수도 있음) 
-			//따라서 더 작은 값들을 탐색함. 현재 경로는 가능한 경로이므로 answer 업데이트 
-			else {
-				answer = mid;
-				end = mid - 1;
-			}
-			
-			//밑의 주석 풀고 실행하면 더 적은 값들이 가능한지 반복하고 있음 -> 최소값을 찾고 있다.
-//			System.out.println("-: " + mid);
+		}
+		return false;
+	}
+	public static void main(String[] args)throws Exception{
+		int N			= read();	// 학생수(1<=천)
+		int P			= read();	// 케이블개수(1<=만)
+		int K			= read();	// 공짜케이블 개수(0<=N)
+		Node adNode[]	= new Node[N+1];
+		int s			= 0;
+		int e			= 0;
+		
+		for(int i=0; i<P; i++)
+		{
+			int a		= read();
+			int b		= read();
+			int c		= read();
+			adNode[a]	= new Node(b,c,adNode[a]);
+			adNode[b]	= new Node(a,c,adNode[b]);
+			e = Math.max(e, c);
 		}
 		
-		System.out.println(answer);
+		int res = -1;
+		
+		while(s <= e)
+		{
+			int mid = (s + e) >> 1;
+			if(dijkstra(mid, N, K, adNode))
+			{
+				res = mid;
+				e = mid - 1;
+			}
+			else
+				s = mid + 1;
+		}
+		
+		System.out.print(res);
 	}
-
 }
