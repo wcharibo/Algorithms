@@ -13,17 +13,6 @@ class Main{
             this.y = Math.max(x, y);
             this.power = power;
         }
-
-//        @Override
-//        public boolean equals(Object o) {
-//            Pair p = (Pair) o;
-//            return this.x == p.x && this.y == p.y;
-//        }
-//
-//        @Override
-//        public int hashCode() {
-//            return Objects.hash(this.x, this.y);
-//        }
     }
 
     public static void main(String[] args) throws Exception{
@@ -64,16 +53,13 @@ class Main{
             for(int i = 0; i < powers.length; i++){
                 for(int j = i + 1; j < powers[i].length; j++){
                     if(powers[i][j] != Integer.MAX_VALUE || powers[j][i] != Integer.MAX_VALUE){
-                        cand.add(new Pair(i, j, Math.min(powers[i][j], powers[j][i])));
+                        q.add(new Pair(i, j, Math.min(powers[i][j], powers[j][i])));
                     }
                 }
             }
 
-            for(Pair i : cand){
-                q.add(i);
-            }      
-
             next = Integer.parseInt(st.nextToken());
+            
             if(next == 0){
 
                 for(int i[] : powers){
