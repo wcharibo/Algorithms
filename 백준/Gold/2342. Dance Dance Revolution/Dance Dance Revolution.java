@@ -9,8 +9,8 @@ class Main{
         int power;
 
         Pair(int x, int y, int power){
-            this.x = Math.min(x, y);
-            this.y = Math.max(x, y);
+            this.x = x;
+            this.y = y;
             this.power = power;
         }
     }
@@ -35,8 +35,6 @@ class Main{
             for(int i = 0; i < 5; i++){
                 Arrays.fill(powers[i], Integer.MAX_VALUE);
             }
-
-            List<Pair> cand = new ArrayList<>();
 
             while(!q.isEmpty()){
                 Pair cur = q.poll();
