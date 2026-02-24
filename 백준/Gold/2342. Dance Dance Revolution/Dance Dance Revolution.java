@@ -14,16 +14,16 @@ class Main{
             this.power = power;
         }
 
-        @Override
-        public boolean equals(Object o) {
-            Pair p = (Pair) o;
-            return this.x == p.x && this.y == p.y;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(this.x, this.y);
-        }
+//        @Override
+//        public boolean equals(Object o) {
+//            Pair p = (Pair) o;
+//            return this.x == p.x && this.y == p.y;
+//        }
+//
+//        @Override
+//        public int hashCode() {
+//            return Objects.hash(this.x, this.y);
+//        }
     }
 
     public static void main(String[] args) throws Exception{
@@ -47,7 +47,7 @@ class Main{
                 Arrays.fill(powers[i], Integer.MAX_VALUE);
             }
 
-            Set<Pair> cand = new HashSet<>();
+            List<Pair> cand = new ArrayList<>();
 
             while(!q.isEmpty()){
                 Pair cur = q.poll();
@@ -62,8 +62,8 @@ class Main{
             }
 
             for(int i = 0; i < powers.length; i++){
-                for(int j = 0; j < powers[i].length; j++){
-                    if(powers[i][j] != Integer.MAX_VALUE){
+                for(int j = i + 1; j < powers[i].length; j++){
+                    if(powers[i][j] != Integer.MAX_VALUE || powers[j][i] != Integer.MAX_VALUE){
                         cand.add(new Pair(i, j, Math.min(powers[i][j], powers[j][i])));
                     }
                 }
