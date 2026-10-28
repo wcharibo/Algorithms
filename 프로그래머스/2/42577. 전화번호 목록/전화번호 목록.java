@@ -3,36 +3,12 @@ import java.util.*;
 class Solution {
     public boolean solution(String[] phone_book) {
         
-        int minLength = 100;
-        int maxLength = 0;
-        
-        for(String phone_num : phone_book){
-            int size = phone_num.length();
-            minLength = minLength > size ? size : minLength;
-            maxLength = maxLength < size ? size : maxLength;
+    Arrays.sort(phone_book); // 기본 사전순 정렬
+    for (int i = 0; i < phone_book.length - 1; i++) {
+        if (phone_book[i + 1].startsWith(phone_book[i])) {
+           return false;
         }
-        
-        Arrays.sort(phone_book, (String i, String j) -> {
-            return i.length() - j.length();
-        });
-        
-        HashSet phoneNums = new HashSet<String>();
-        int startPoint = 0;
-        
-        for(int i = minLength; i < maxLength + 1; i++){
-            
-            for(int j = startPoint; j < phone_book.length; j++){
-                String phoneNum = phone_book[j];
-                if(phoneNum.length() == i){
-                    startPoint++;
-                    if(phoneNums.add(phoneNum) == false){
-                        return false;
-                    }
-                }else{
-                    if(phoneNums.contains(phoneNum.substring(0,i))) return false;
-                }
-            }
-        }
+    }
         
         return true;
     }
