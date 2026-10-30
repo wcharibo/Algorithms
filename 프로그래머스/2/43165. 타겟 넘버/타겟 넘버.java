@@ -14,10 +14,10 @@ class Solution {
         }
         
         
-        if(Math.abs(TARGET - cur) <= pos[idx]){
+        // if(Math.abs(TARGET - cur) <= pos[idx]){
             comb(numbers, idx + 1, cur + numbers[idx]);
             comb(numbers, idx + 1, cur - numbers[idx]);
-        }
+        // }
     }
     
     
