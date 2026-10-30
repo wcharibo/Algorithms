@@ -3,7 +3,7 @@ import java.util.*;
 class Solution {
     public int solution(int[] scoville, int K) {
         int answer = 0;
-        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> a - b);
+        PriorityQueue<Integer> pq = new PriorityQueue<>(scoville.length);
         
         for(int sc : scoville){
             pq.add(sc);
