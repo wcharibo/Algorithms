@@ -1,65 +1,43 @@
 import java.util.*;
 
 class Solution {
-    static int[] sets;
-    
-    static class Edge implements Comparable<Edge> {
-        int a;
-        int b;
-        int c;
-        
-        Edge(int a, int b, int c){
-            this.a = a;
-            this.b = b;
-            this.c = c;
-        }
-        
-        public int compareTo(Edge o){
-            return this.c - o.c;
-        }
-    }
-    
+    int[] sets;
+
     public int solution(int n, int[][] costs) {
         int answer = 0;
-        int unionCnt = 0;
-        PriorityQueue<Edge> pq = new PriorityQueue<>();
+        
         sets = new int[n];
+        for(int i = 0; i < n; i++) sets[i] = i;
         
-        for(int i = 0; i < n; i++){
-            sets[i] = i;
-        }
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[2] - b[2]);
         
-        for(int[] i : costs){
-            pq.add(new Edge(i[0], i[1], i[2]));
-        }
+        for(int[] cost : costs) pq.add(cost);
         
-        while(!pq.isEmpty() && unionCnt < n - 1 ){
-            Edge cur = pq.poll();
+        while(!pq.isEmpty()){
+            int[] con = pq.poll();
             
-            if(union(cur.a, cur.b)){
-                answer+=cur.c;
-                unionCnt++;
+            if(union(con[0], con[1]) == true){
+                answer += con[2];
             }
         }
         
         return answer;
     }
     
-    static public int find(int a){
-        if(sets[a] == a) return sets[a];
+    private int find(int child){
+        if(child == sets[child]) return sets[child];
         
-        return sets[a] = find(sets[a]);
+        return sets[child] = find(sets[child]);
     }
     
-    static public boolean union(int a, int b){
+    private boolean union(int a, int b){
         int pa = find(a);
         int pb = find(b);
         
-        if(pa == pb){
-            return false;
-        }
+        if(pa == pb) return false;
         
         sets[pb] = pa;
+        
         return true;
     }
 }
