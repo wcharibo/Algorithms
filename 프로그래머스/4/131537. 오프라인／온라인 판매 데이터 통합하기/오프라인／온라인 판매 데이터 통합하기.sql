@@ -1,15 +1,16 @@
--- 코드를 입력하세요
-WITH CTE AS(
-    SELECT SALES_DATE, USER_ID, PRODUCT_ID, SALES_AMOUNT
-    FROM ONLINE_SALE
-    WHERE SALES_DATE LIKE('2022-03%')
+select sales_date, product_id, user_id, sales_amount
+from (
+    select sales_date, product_id, user_id, sales_amount
+    from online_sale
+    where year(sales_date) = 2022
+    and month(sales_date) = 3
     
-    UNION
+    union all
     
-    SELECT SALES_DATE, NULL AS USER_ID, PRODUCT_ID, SALES_AMOUNT
-    FROM OFFLINE_SALE
-    WHERE SALES_DATE LIKE('2022-03%')
-)
-SELECT DATE_FORMAT(SALES_DATE, '%Y-%m-%d') AS SALES_DATE, PRODUCT_ID, USER_ID, SALES_AMOUNT
-FROM CTE
-ORDER BY SALES_DATE ASC, PRODUCT_ID ASC, USER_ID ASC
+    select sales_date, product_id, null, sales_amount
+    from offline_sale
+    where year(sales_date) = 2022
+    and month(sales_date) = 3
+
+) as sales
+order by sales_date asc, product_id asc, user_id asc;
