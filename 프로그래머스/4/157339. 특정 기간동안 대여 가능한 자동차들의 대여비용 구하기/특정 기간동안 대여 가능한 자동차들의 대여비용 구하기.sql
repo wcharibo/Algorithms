@@ -1,19 +1,23 @@
--- 코드를 입력하세요
-WITH CTE AS(
-    SELECT C.CAR_ID, C.CAR_TYPE, ROUND((100-D.DISCOUNT_RATE)/100*C.DAILY_FEE*30) AS FEE
-    FROM CAR_RENTAL_COMPANY_CAR AS C
-    JOIN CAR_RENTAL_COMPANY_DISCOUNT_PLAN AS D ON D.CAR_TYPE = C.CAR_TYPE
-    WHERE CAR_ID NOT IN (
-        SELECT DISTINCT CAR_ID
-        FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY 
-        WHERE START_DATE <= '2022-11-30'
-          AND END_DATE >= '2022-11-01')
-      AND C.CAR_TYPE IN ('세단', 'SUV')
-      AND D.DURATION_TYPE LIKE('30%')
-    )
-  
-SELECT CAR_ID, CAR_TYPE, FEE
-FROM CTE 
-WHERE FEE >= 500000
-  AND FEE < 2000000
-ORDER BY 3 DESC, 2 ASC, 1 DESC
+with car as (select car_id, car_type, daily_fee * 30 / 10000 as daily_fee
+from car_rental_company_car
+where car_id not in (
+    select car_id
+    from car_rental_company_rental_history
+    where timestampdiff(day, start_date, '2022-11-30') >= 1
+        and timestampdiff(day, '2022-11-01', end_date) >= 1
+)
+and car_type in ('세단', 'SUV'))
+
+select c.car_id, c.car_type, c.daily_fee * (1 - d.discount_rate/100) * 10000 as fee
+from car as c
+join (
+    select car_type, discount_rate
+    from car_rental_company_discount_plan
+    where duration_type like ('30일 이상')
+) as d
+on c.car_type = d.car_type
+where c.daily_fee * (1 - d.discount_rate/100) >= 50
+    and c.daily_fee * (1 - d.discount_rate/100) < 200
+    
+
+
