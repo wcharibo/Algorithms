@@ -1,8 +1,13 @@
--- 코드를 입력하세요
-SELECT O.PRODUCT_ID, P.PRODUCT_NAME, SUM(O.AMOUNT) * MAX(P.PRICE) AS TOTAL_SALES
-FROM FOOD_ORDER O
-LEFT JOIN FOOD_PRODUCT AS P ON O.PRODUCT_ID = P.PRODUCT_ID
-WHERE MONTH(O.PRODUCE_DATE) = 5 AND YEAR(O.PRODUCE_DATE) = 2022
-GROUP BY O.PRODUCT_ID
+with cte as(
+select product_id, sum(amount) as amount
+from food_order
+where year(produce_date) = 2022
+    and month(produce_date) = 5
+group by product_id
+)
 
-ORDER BY TOTAL_SALES DESC, O.PRODUCT_ID ASC
+select p.product_id, p.product_name, (o.amount * p.price) as total_sales
+from cte o
+join food_product p
+    on o.product_id = p.product_id
+order by o.amount * p.price desc, p.product_id;
