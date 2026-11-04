@@ -1,9 +1,7 @@
--- 코드를 입력하세요
-with cte as(SELECT *, group_concat(name order by price separator ', ') as c
-from cart_products
-group by cart_id
-having c like('%milk%') and c like('%yogurt%'))
-
-select cart_id
-from cte
-order by cart_id
+select distinct l.cart_id
+from cart_products as l
+join cart_products as r
+on l.cart_id = r.cart_id
+    and l.name like 'yogurt'
+    and r.name like 'milk'
+order by l.cart_id
