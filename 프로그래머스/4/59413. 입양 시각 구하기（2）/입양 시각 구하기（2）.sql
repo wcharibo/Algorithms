@@ -1,16 +1,15 @@
--- 코드를 입력하세요
-WITH RECURSIVE CTE AS (
-    SELECT 0 AS hour
-    UNION ALL
-    SELECT hour + 1 FROM CTE WHERE hour < 23
+with recursive hours as(
+    select 0 as hour
+    union all
+    select hour + 1
+    from hours
+    where hour < 23
 )
 
-SELECT C.HOUR AS HOUR,
-CASE
-    WHEN O.ANIMAL_ID IS NULL THEN 0
-    ELSE COUNT(*)
-END AS COUNT
-FROM CTE AS C
-LEFT JOIN ANIMAL_OUTS AS O ON C.HOUR = HOUR(O.DATETIME)
-GROUP BY C.HOUR
-ORDER BY HOUR
+select h.hour, count(animal_id) as count
+from animal_outs as o
+right join hours as h
+on h.hour = hour(o.datetime)
+group by h.hour
+order by h.hour;
+
